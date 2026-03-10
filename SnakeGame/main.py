@@ -1,12 +1,14 @@
 # Baixar biblioteca: python -m pip install -U pygame==2.6.0
 import pygame
 import random
+import sys
 
+#Config
 pygame.init()
 pygame.display.set_caption("Jogo Snake Python")
 
-#Screen
-largura, altura = 1200, 700
+largura = 1200
+altura = 700
 tela = pygame.display.set_mode((largura, altura))
 relogio = pygame.time.Clock()
 
@@ -15,7 +17,7 @@ branca = (255, 255, 255)
 vermelha = (255, 0, 0)
 verde = (0, 255, 0)
 
-    #Parametros da cobrinha
+#Parametros da cobrinha
 tamanho_quadrado = 20
 velocidade_jogo = 15
 
