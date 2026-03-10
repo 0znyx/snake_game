@@ -5,7 +5,7 @@ import random
 pygame.init()
 pygame.display.set_caption("Jogo Snake Python")
 
-    #Tela
+#Screen
 largura, altura = 1200, 700
 tela = pygame.display.set_mode((largura, altura))
 relogio = pygame.time.Clock()
@@ -36,18 +36,20 @@ def desenhar_pontuacao(pontuacao):
     texto = fonte.render(f"Pontos: {pontuacao}", True, vermelha)
     tela.blit(texto, [1, 1])
 
-def selecionar_velocidade(tecla):
-    if tecla == pygame.K_DOWN:
+def selecionar_velocidade(tecla, vel_x, vel_y):
+    if tecla == pygame.K_DOWN and vel_y == 0:
         return 0, tamanho_quadrado
 
-    if tecla == pygame.K_UP:
+    if tecla == pygame.K_UP and vel_y == 0:
         return 0, -tamanho_quadrado
 
-    if tecla == pygame.K_RIGHT:
+    if tecla == pygame.K_RIGHT and vel_x == 0:
         return tamanho_quadrado, 0
 
-    if tecla == pygame.K_LEFT:
+    if tecla == pygame.K_LEFT and vel_x == 0:
         return -tamanho_quadrado, 0
+    
+    return vel_x, vel_y
     
 def rodar_jogo():
     fim_jogo = False
@@ -70,11 +72,11 @@ def rodar_jogo():
             if evento.type == pygame.QUIT:
                 fim_jogo = True
             elif evento.type == pygame.KEYDOWN:
-                velocidade_x, velocidade_y = selecionar_velocidade(evento.key)
+                velocidade_x, velocidade_y = selecionar_velocidade(evento.key, velocidade_x, velocidade_y)
 
 
 
-        #Desenhar comida
+        #Draw Food
         desenhar_comida(tamanho_quadrado, comida_x, comida_y)
 
         # Atualizar a posição da cobra
@@ -84,7 +86,7 @@ def rodar_jogo():
         x += velocidade_x
         y += velocidade_y
 
-        #Desenhar cobra
+        #Draw Snake
         pixels.append([x, y])
 
         if len(pixels) > tamanho_cobra:
@@ -97,13 +99,13 @@ def rodar_jogo():
 
         desenhar_cobra(tamanho_quadrado, pixels)
 
-        #Desenhar pontos
+        #Draw Score
         desenhar_pontuacao(tamanho_cobra - 1)
 
         #Atualização da Tela
         pygame.display.update()
 
-        #Criar nova comida
+        #Draw new food
         if x == comida_x and y == comida_y:
             tamanho_cobra += 1
             comida_x, comida_y = gerar_comida()
